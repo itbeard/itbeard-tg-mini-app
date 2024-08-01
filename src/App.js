@@ -10,7 +10,7 @@ function App() {
     fetchVideos();
   }, []);
 
-  const API_KEY = process.env.YOUTUBE_API_KEY;
+  const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
 
   const fetchVideos = async () => {
     try {
