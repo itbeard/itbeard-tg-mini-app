@@ -27,15 +27,13 @@ function AppContent() {
     const videoId = searchParams.get('v');
     if (videoId && location.pathname === '/') {
       navigate(`/watch?v=${videoId}`);
-    } else if (location.pathname === '/') {
-      navigate('/home');
     }
   }, [navigate, location]);
 
   return (
     <div className={`App ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/watch" element={<Watch />} />
       </Routes>
     </div>
