@@ -8,7 +8,6 @@ function Watch() {
 
   return (
     <div className="content-container">
-      <h1>Ваше видео 😊</h1>
       {videoId ? (
         <VideoPlayer videoId={videoId} />
       ) : (

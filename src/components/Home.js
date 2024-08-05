@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { extractVideoId } from '../utils/videoUtils';
+import WebApp from '@twa-dev/sdk';
 
 function Home() {
   const [videoUrl, setVideoUrl] = useState('');
@@ -12,13 +13,12 @@ function Home() {
     if (videoId) {
       navigate(`/watch?v=${videoId}`);
     } else {
-      alert('Неверная ссылка на YouTube видео');
+        WebApp.showAlert('Неверная ссылка!');
     }
   };
 
   return (
     <div className="content-container">
-      <h1>Открывашка YouTube</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
