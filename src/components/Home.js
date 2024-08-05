@@ -17,8 +17,8 @@ function Home() {
   };
 
   return (
-    <div>
-      <h1>YouTube Video Opener</h1>
+    <div className="content-container">
+      <h1>Открывашка YouTube</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -26,7 +26,7 @@ function Home() {
           onChange={(e) => setVideoUrl(e.target.value)}
           placeholder="Вставьте ссылку на YouTube видео"
         />
-        <button type="submit">Открыть видео</button>
+        <button type="submit">Смотреть!</button>
       </form>
     </div>
   );

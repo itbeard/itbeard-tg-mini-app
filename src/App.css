@@ -1,44 +1,98 @@
-.App {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.light-theme {
-  color: #000000;
-  background-color: #ffffff;
-}
-
-.dark-theme {
-  color: #ffffff;
-  background-color: #1e1e1e;
-}
-
-ul {
-  list-style-type: none;
+html, body, #root {
+  height: 100%;
+  margin: 0;
   padding: 0;
 }
 
-li {
-  margin-bottom: 30px;
-}
-
-.video-responsive {
-  overflow: hidden;
-  padding-bottom: 56.25%;
-  position: relative;
-  height: 0;
-}
-
-.video-responsive iframe {
-  left: 0;
-  top: 0;
+.App {
   height: 100%;
-  width: 100%;
-  position: absolute;
+  display: flex;
+  flex-direction: column;
 }
 
-h1, h3 {
-  margin: 10px 0;
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+header {
+  padding: 1rem;
+  background-color: #f0f0f0;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+footer {
+  padding: 1rem;
+  background-color: #f0f0f0;
+  text-align: center;
+}
+
+.content-container {
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Стили для форм и кнопок */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Стили для темной темы */
+.dark-theme {
+  background-color: #333;
+  color: #fff;
+}
+
+.dark-theme header,
+.dark-theme footer {
+  background-color: #222;
+}
+
+.dark-theme a {
+  color: #61dafb;
+}
+
+.dark-theme input[type="text"] {
+  background-color: #444;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.dark-theme button {
+  background-color: #61dafb;
+  color: #000;
+}
+
+.dark-theme button:hover {
+  background-color: #4fa8d5;
 }

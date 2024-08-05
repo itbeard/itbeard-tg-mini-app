@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, useNavigate, useLocation } from
 import WebApp from '@twa-dev/sdk';
 import Home from './components/Home';
 import Watch from './components/Watch';
+import Layout from './components/Layout';
 import './App.css';
 
 function AppContent() {
@@ -12,6 +13,7 @@ function AppContent() {
 
   useEffect(() => {
     WebApp.ready();
+    WebApp.expand();
     
     // Определяем тему Telegram
     const isDark = WebApp.colorScheme === 'dark';
@@ -32,10 +34,12 @@ function AppContent() {
 
   return (
     <div className={`App ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/watch" element={<Watch />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/watch" element={<Watch />} />
+        </Routes>
+      </Layout>
     </div>
   );
 }
