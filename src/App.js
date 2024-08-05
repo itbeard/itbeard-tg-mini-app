@@ -24,7 +24,7 @@ function AppContent() {
 
     // Проверяем наличие параметра 'v' в URL
     const searchParams = new URLSearchParams(location.search);
-    const videoId = searchParams.get('v') || searchParams.get('start_param');
+    const videoId = searchParams.get('v') || WebApp.initDataUnsafe?.start_param;
     if (videoId && location.pathname === '/') {
       navigate(`/watch?v=${videoId}`);
     }
