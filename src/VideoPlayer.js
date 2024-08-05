@@ -1,8 +1,8 @@
 import React from 'react';
 
-const VideoPlayer = ({ videoId }) => {
+function VideoPlayer({ videoId }) {
   return (
-    <div className="video-responsive">
+    <div className="video-player">
       <iframe
         width="100%"
         height="315"
@@ -14,6 +14,6 @@ const VideoPlayer = ({ videoId }) => {
       />
     </div>
   );
-};
+}
 
 export default VideoPlayer;

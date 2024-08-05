@@ -1,47 +1,70 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import WebApp from '@twa-dev/sdk';
-import VideoPlayer from './VideoPlayer'; // Мы создадим этот компонент
+import VideoPlayer from './VideoPlayer';
 import './App.css';
 
-function App() {
-  const [videos, setVideos] = useState([]);
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+function Home() {
+  const [videoUrl, setVideoUrl] = useState('');
+  const navigate = useNavigate();
 
-  const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const videoId = extractVideoId(videoUrl);
+    if (videoId) {
+      navigate(`/watch?v=${videoId}`);
+    } else {
+      alert('Неверная ссылка на YouTube видео');
+    }
+  };
 
-  const fetchVideos = useCallback(async () => {
-    if (!API_KEY) {
-      console.error('YouTube API key is not set');
-      return;
-    }
-    try {
-      const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
-        params: {
-          part: 'snippet',
-          channelId: 'UCeObZv89Stb2xLtjLJ0De3Q',
-          maxResults: 50,
-          order: 'date',
-          type: 'video',
-          videoDuration: 'long',
-          key: API_KEY
-        }
-      });
-      const filteredVideos = response.data.items.filter(video => {
-        const title = video.snippet.title.toLowerCase();
-        return !title.includes('#shorts') && 
-               !title.includes('стрим') && 
-               !title.includes('stream');
-      });
-      setVideos(filteredVideos.slice(0, 5)); // Ограничим список 10 видео
-    } catch (error) {
-      console.error('Error fetching videos:', error);
-    }
-  }, [API_KEY]);
+  const extractVideoId = (url) => {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+  };
+
+  return (
+    <div>
+      <h1>YouTube Video Opener</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={videoUrl}
+          onChange={(e) => setVideoUrl(e.target.value)}
+          placeholder="Вставьте ссылку на YouTube видео"
+        />
+        <button type="submit">Открыть видео</button>
+      </form>
+    </div>
+  );
+}
+
+function Watch() {
+  const videoId = new URLSearchParams(window.location.search).get('v');
 
   useEffect(() => {
     WebApp.ready();
-    fetchVideos();
+    WebApp.expand();
+  }, []);
+
+  return (
+    <div>
+      <h1>YouTube Video Player</h1>
+      {videoId ? (
+        <VideoPlayer videoId={videoId} />
+      ) : (
+        <p>Видео не найдено. Пожалуйста, вернитесь на главную страницу и попробуйте снова.</p>
+      )}
+    </div>
+  );
+}
+
+function App() {
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  useEffect(() => {
+    WebApp.ready();
     
     // Определяем тему Telegram
     const isDark = WebApp.colorScheme === 'dark';
@@ -51,20 +74,17 @@ function App() {
     WebApp.onEvent('themeChanged', () => {
       setIsDarkTheme(WebApp.colorScheme === 'dark');
     });
-  }, [fetchVideos]);
+  }, []);
 
   return (
-    <div className={`App ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
-      <h1>Последние видео с канала АйТиБорода</h1>
-      <ul>
-        {videos.map((video) => (
-          <li key={video.id.videoId}>
-            <VideoPlayer videoId={video.id.videoId} />
-            <h3>{video.snippet.title}</h3>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Router>
+      <div className={`App ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/watch" element={<Watch />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
