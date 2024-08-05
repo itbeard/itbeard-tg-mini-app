@@ -7,7 +7,8 @@ function RedirectToWatch() {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const videoId = searchParams.get('v');
+    const videoId = searchParams.get('v') || searchParams.get('start_param');
+    
     if (videoId) {
       navigate(`/watch?v=${videoId}`);
     } else {
